@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กรอก QC/QC FFM/Pre-Pack</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Tt-Area51/leave-zeta-2025/main/favicon.ico?v2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --background: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --card-background: #ffffff;
+            --toggle-background: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --background: #0f172a;
+            --text-color: #e2e8f0;
+            --border-color: #1e293b;
+            --card-background: #1e293b;
+            --toggle-background: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
+            line-height: 1.5;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-button {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .iframe-container {
+            background: var(--card-background);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        .iframe-container iframe {
+            border: none;
+            width: 100%;
+            height: 800px;
+            background: transparent;
+            display: none;
+        }
+
+        #formFrame { display: block; }
+
+        /* Dark Mode Toggle */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--toggle-background);
+            transition: 0.3s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        @media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack the header items vertically */
+        align-items: center; /* Center align items */
+    }
+
+    .header h1 {
+        margin-bottom: 1rem; /* Add some spacing below the title */
+    }
+
+    .header-controls {
+        display: flex;
+        justify-content: center; /* Center the buttons horizontally */
+        gap: 1rem; /* Add spacing between buttons */
+    }
+
+    .header-controls button:nth-child(3) { /* Target the third button (ตาราง) */
+        display: none; /* Hide ตาราง button on mobile */
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>กรอก QC/QC FFM/Pre-Pack</h1>
+            <div class="header-controls">
+                <button class="toggle-button" onclick="toggleView('form')">QC</button>
+                <button class="toggle-button" onclick="toggleView('ffm-history')">QC FFM</button>
+                <button class="toggle-button" onclick="toggleView('claim-report')">เคลม</button>
+                <div class="theme-switch-wrapper"> 
+                    <span class="theme-icon sun">☀️</span>
+                    <label class="theme-switch" for="theme-toggle">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="theme-icon moon">🌙</span>
+                </div>
+            </div>
+        </div>
+        <div class="iframe-container">
+            <iframe id="qcFrame" class="airtable-embed" src="https://airtable.com/embed/appgEuVEfgUW5Lz4E/pagh09ZVcMDFQUtrz/form"></iframe>
+            <iframe id="ffmFrame" class="airtable-embed" src="https://airtable.com/embed/appgEuVEfgUW5Lz4E/pagdH7UXnNODlmF5K/form"></iframe>
+            <iframe id="claimFrame" class="airtable-embed" src="https://airtable.com/embed/appCPjQyw4Tr3alrS/pagyQbwwcQGbXOBNw/form"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function toggleView(view) {
+            document.getElementById('qcFrame').style.display = 'none';
+            document.getElementById('ffmFrame').style.display = 'none';
+            document.getElementById('claimFrame').style.display = 'none';
+
+        if (view === 'ffm-history') {
+            document.getElementById('ffmFrame').style.display = 'block'; // Fix: show the correct iframe
+        } else if (view === 'claim-report') {
+            document.getElementById('claimFrame').style.display = 'block';
+        } else {
+            document.getElementById('qcFrame').style.display = 'block';
+        }
+    }
+
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.checked = localStorage.getItem('theme') === 'dark';
+        document.documentElement.setAttribute('data-theme', themeToggle.checked ? 'dark' : 'light');
+        
+        themeToggle.addEventListener('change', () => {
+            const theme = themeToggle.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        });
+    </script>
+</body>
+</html>
